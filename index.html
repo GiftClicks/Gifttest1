@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gift.clicks | کادو برای یک لبخند</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Tahoma,Arial,sans-serif}
+body{overflow-x:hidden;color:#17324d}
+.screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px;position:relative;overflow:hidden}
+.screen:before{content:"gift.clicks";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+font-size:clamp(55px,11vw,150px);font-weight:900;letter-spacing:4px;color:rgba(40,120,150,.075);
+transform:rotate(-18deg);pointer-events:none;z-index:0}
+.logo-fixed{position:fixed;top:14px;right:16px;width:105px;max-width:22vw;height:auto;z-index:50;
+filter:drop-shadow(0 5px 8px rgba(0,0,0,.16));pointer-events:none}
+.music{position:fixed;left:16px;top:14px;z-index:51;border:1px solid rgba(255,255,255,.7);
+background:rgba(255,255,255,.72);backdrop-filter:blur(10px);border-radius:999px;padding:10px 14px;
+font:inherit;font-size:14px;color:#244e64;box-shadow:0 7px 22px rgba(0,0,0,.12);cursor:pointer}
+.flowers{position:absolute;inset:0;pointer-events:none;font-size:28px;color:rgba(255,255,255,.78);z-index:1}
+.flower{position:absolute;animation:float 5s ease-in-out infinite}
+.f1{top:8%;left:10%}.f2{top:20%;right:8%;animation-delay:1s}.f3{bottom:12%;left:8%;animation-delay:2s}
+.f4{bottom:20%;right:12%;animation-delay:3s}.f5{top:48%;left:3%;animation-delay:1.5s}.f6{top:62%;right:4%;animation-delay:.5s}
+.card,.message{position:relative;z-index:3;width:min(650px,95vw);padding:42px 28px;border-radius:30px;
+background:rgba(255,255,255,.76);backdrop-filter:blur(14px);box-shadow:0 25px 70px rgba(36,100,130,.18);
+text-align:center;border:1px solid rgba(255,255,255,.82)}
+.logo-text{font-size:20px;font-weight:bold;letter-spacing:2px;color:#2780a5;margin-bottom:14px}
+h1{font-size:clamp(25px,6vw,42px);margin:10px 0 28px}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+button{border:0;border-radius:18px;padding:17px 12px;font:inherit;font-weight:bold;cursor:pointer;
+background:white;color:#23516b;box-shadow:0 8px 22px rgba(0,0,0,.08);transition:.25s}
+button:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.14)}
+.option{font-size:18px}
+.sub{font-size:14px;color:#527085;margin-top:12px}
+.page{background:linear-gradient(135deg,#fff1f5,#f8fbff,#e8f5ff)}
+.soft{background:linear-gradient(135deg,#eaf8ff,#dff4f0)}
+.love{background:linear-gradient(135deg,#ffe4ee,#fff5f8,#ffd9e8)}
+.congrats{background:linear-gradient(135deg,#fff4cf,#fff,#dff7ed)}
+.final{background:radial-gradient(circle at 20% 20%,#6c2d75,#21163f 45%,#09091c);color:#fff}
+.final:before{color:rgba(255,255,255,.055)}
+.final .message{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);color:#fff}
+.final .logo-text{color:#ffd4ec}
+.final h2{color:#ffd4ec}
+.message h2{font-size:clamp(25px,5vw,38px);margin-top:0}
+.message p{font-size:20px;line-height:2.1}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:25px}
+.yes{background:#ffdce7;color:#9b3155}.no{background:#e9edf2;color:#46515b}
+.back{margin-top:18px;background:transparent;border:1px solid rgba(0,0,0,.1);box-shadow:none}
+.final .back{color:#fff;border-color:rgba(255,255,255,.3)}
+.heart{font-size:55px;animation:pulse 1.2s infinite}
+.petal{position:absolute;top:-50px;font-size:28px;animation:fall linear forwards;z-index:20}
+@keyframes float{50%{transform:translateY(-14px) rotate(8deg)}}
+@keyframes pulse{50%{transform:scale(1.16)}}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+@media(max-width:520px){.options{grid-template-columns:1fr}.card,.message{padding:32px 20px}.message p{font-size:17px}.logo-fixed{width:82px}.music{font-size:12px;padding:8px 11px}}
+
+/* Animated emoji-like motion for the main top-right logo */
+@keyframes giftLogoFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(-2deg) scale(1);
+  }
+  25% {
+    transform: translate3d(1px, -3px, 0) rotate(2deg) scale(1.02);
+  }
+  50% {
+    transform: translate3d(0, -5px, 0) rotate(-1deg) scale(1.04);
+  }
+  75% {
+    transform: translate3d(-1px, -2px, 0) rotate(2deg) scale(1.02);
+  }
+}
+
+
+.gift-logo-animated{
+  animation: giftLogoFloat 2.8s ease-in-out infinite;
+  transform-origin:center center;
+  will-change:transform;
+}
+
+</style>
+</head>
+<body>
+<img class="logo-fixed gift-logo-animated" src="logo.png" alt="gift.clicks">
+<button class="music" id="musicBtn" onclick="toggleMusic()">🎵 موسیقی خاموش</button>
+<audio id="bgMusic" src="music.mpeg" loop preload="none"></audio>
+
+<style id="threeStageLoaderStyle">
+#threeStageLoader{
+ position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;
+ background:#eaf8ff;font-family:Tahoma,Arial,sans-serif;transition:opacity .35s ease;
+}
+#threeStageLoader.hide{opacity:0;pointer-events:none}
+.stageBox{width:min(360px,88vw);text-align:center;background:rgba(255,255,255,.88);
+ padding:28px 22px;border-radius:24px;box-shadow:0 15px 45px rgba(0,0,0,.12)}
+.stageLogo{font-size:28px;font-weight:900;color:#244e64;margin-bottom:18px}
+.stageTitle{font-size:18px;font-weight:700;color:#17324d;margin-bottom:8px}
+.stageText{font-size:13px;color:#527080;min-height:24px}
+.stageBar{height:7px;background:#dcecf3;border-radius:99px;overflow:hidden;margin-top:18px}
+.stageProgress{height:100%;width:0;background:#5ba9c7;border-radius:99px;transition:width .3s ease}
+.stageSteps{display:flex;justify-content:center;gap:7px;margin-top:15px}
+.stageDot{width:8px;height:8px;border-radius:50%;background:#c8dce5}
+.stageDot.active{background:#5ba9c7;transform:scale(1.25)}
+</style>
+<div id="threeStageLoader">
+ <div class="stageBox">
+  <div class="stageLogo">gift.clicks ✦</div>
+  <div class="stageTitle" id="stageTitle">در حال آماده‌سازی...</div>
+  <div class="stageText" id="stageText">مرحله ۱ از ۳</div>
+  <div class="stageBar"><div class="stageProgress" id="stageProgress"></div></div>
+  <div class="stageSteps">
+   <span class="stageDot active"></span><span class="stageDot"></span><span class="stageDot"></span>
+  </div>
+ </div>
+</div>
+
+<div id="app"></div>
+<script>
+const app=document.getElementById('app');
+const music=document.getElementById('bgMusic');
+const musicBtn=document.getElementById('musicBtn');
+let musicStarted=false;
+
+const startupLoader=document.getElementById('threeStageLoader');
+const stageTitle=document.getElementById('stageTitle');
+const stageText=document.getElementById('stageText');
+const stageProgress=document.getElementById('stageProgress');
+const stageDots=document.querySelectorAll('.stageDot');
+
+function setStage(n,title,text){
+  stageTitle.textContent=title;
+  stageText.textContent=text;
+  stageProgress.style.width=(n*33.333)+'%';
+  stageDots.forEach((d,i)=>d.classList.toggle('active',i<n));
+}
+
+function finishStartup(){
+  setStage(3,'آماده شد ✨','کادو آماده است');
+  setTimeout(()=>{
+    startupLoader.classList.add('hide');
+    setTimeout(()=>startupLoader.remove(),400);
+  },250);
+}
+
+function startMusic(){
+  if(!musicStarted){
+    music.volume=.22;
+    music.play().then(()=>{musicStarted=true; musicBtn.textContent='🎵 موسیقی روشن'}).catch(()=>{});
+  }
+}
+function toggleMusic(){
+  if(music.paused){startMusic(); musicBtn.textContent='🎵 موسیقی روشن';}
+  else{music.pause(); musicBtn.textContent='🎵 موسیقی خاموش';}
+}
+
+const pages={
+home:()=>`<section class="screen home" style="background:linear-gradient(135deg,#bfe5f5,#eaf8ff 55%,#cdebf7)">
+ <div class="flowers"><span class="flower f1">❀</span><span class="flower f2">✿</span><span class="flower f3">❁</span><span class="flower f4">❀</span><span class="flower f5">✿</span><span class="flower f6">❁</span></div>
+ <div class="card"><div class="logo-text">gift.clicks ✦</div>
+ <h1>چه لبخندی می‌خوای کادو بدی؟ </h1>
+ <div class="options">
+  <button class="option" onclick="go('apology')">💙 دلجویی</button>
+  <button class="option" onclick="go('love')">💗 عاشقانه</button>
+  <button class="option" onclick="go('congrats')">🎉 تبریک مناسبت</button>
+ </div><div class="sub">یک انتخاب کن؛ بقیه‌اش با ما ✨</div></div></section>`,
+
+apology:()=>`<section class="screen page soft"><div class="message"><div class="heart">🥺💙</div>
+<h2>یه حرف از ته دلم...</h2><p>شاید الان ازم ناراحت باشی، ولی بدون برام بیشتر از هر چیزی اهمیت داری و نمی‌خوام ناراحت بمونی.<br>اگه دلت گرفت، بذار این کوچولوها یه لبخند روی لبت بیارن. 🌷</p>
+<div class="actions"><button class="yes" onclick="go('forgiven')">از دلم دراومد 🙂</button><button class="no" onclick="go('moreApology')">از دلم درنیومد ☹️</button></div></div></section>`,
+
+moreApology:()=>`<section class="screen page soft"><div class="message"><div class="heart">💌</div>
+<h2>پس بذار یه بار دیگه بگم...</h2><p>من نمی‌خوام فقط عذرخواهی کنم؛ می‌خوام بدونی بودنت برام ارزشمنده. اگر ناراحتت کردم، از ته دلم متأسفم. 🌿<br>نه برای اینکه بحث تموم بشه؛ برای اینکه خودت، حال دلت و لبخندت برام مهمه.<br><strong>هرچقدر هم طول بکشه، دوست دارم دوباره از دلت دربیارم. 🤍</strong></p>
+<div class="actions"><button class="yes" onclick="go('forgiven')">باشه... از دلم دراومد 🙂</button></div></div></section>`,
+
+forgiven:()=>`<section class="screen page" style="background:linear-gradient(135deg,#ffeaf3,#fff,#e4f8ef)"><div class="message">
+<div class="heart">🌸💖🌸</div><h2>آخیش...! 🥹</h2><p>پس دوباره لبخند بزن؛ چون این لبخند دقیقاً همون چیزیه که می‌خواستم کادو بدم. 🌷</p>
+<button onclick="go('final')">بریم برای کادوی آخر ✨</button></div></section>`,
+
+love:()=>`<section class="screen page love"><div class="message"><div class="heart">💗</div>
+<h2>برای کسی که دوستش دارم...</h2><p>اگر قرار بود فقط یک چیز بهت هدیه بدم، لبخندت رو انتخاب می‌کردم؛ چون وقتی تو می‌خندی، انگار دنیا برای چند لحظه قشنگ‌تر می‌شه. 🌹<br>بودنت برای من فقط یک اتفاق نیست؛ یکی از قشنگ‌ترین قسمت‌های زندگی منه. <strong>دوستت دارم، بیشتر از چیزی که این چند خط بتونه بگه. 💖</strong></p>
+<button onclick="go('final')">این کادو رو دوست داشتم 💞</button></div></section>`,
+
+congrats:()=>`<section class="screen page congrats"><div class="message"><div class="heart">🎁✨</div>
+<h2>یه تبریک از جنس لبخند!</h2><p>هرمناسبتی رو میتونی با یک پیام شخصی سازی شده تبریک بگی 🎉<br>امیدوارم روزهات پر از خبرهای خوب، اتفاق‌های قشنگ و آدم‌هایی باشه که دلت رو گرم می‌کنن.<br><strong>اینم یک کادوی کوچیک برای اینکه یادت نره: تو شایسته‌ی بهترین لبخندهایی. 💐</strong></p>
+<button onclick="go('final')">کادوی آخر رو ببین 🎁</button></div></section>`,
+
+final:()=>`<section class="screen final"><div class="flowers"><span class="flower f1">✦</span><span class="flower f2">✧</span><span class="flower f3">✦</span><span class="flower f4">✧</span></div>
+<div class="message"><div class="logo-text">gift.clicks ✦</div><div class="heart">💖</div>
+<h2>لبخند، فقط شروع ماجراست!</h2><p>ما فقط لبخند رو کادو نمی‌دیم به کسی که مدنظرتونه؛<br><strong>ما یک کادوی جادوانه براتون درست می‌کنیم 💖</strong></p>
+<div class="actions" style="display:flex;flex-direction:column;gap:12px;align-items:stretch"><button class="back" onclick="go('home')">یک کادوی دیگه بساز ✨</button><button onclick="window.open('https://www.instagram.com/gift.clicks/','_blank')">سفارششو به ما بده :)</button></div></div></section>`
+};
+
+function go(name){
+ startMusic();
+ app.innerHTML=pages[name]();
+ window.scrollTo(0,0);
+ if(name==='forgiven') rainFlowers();
+}
+function rainFlowers(){
+ const symbols=['🌸','❀','✿','🌷','❁','💮'];
+ for(let i=0;i<42;i++){
+  const el=document.createElement('span'); el.className='petal';
+  el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+  el.style.left=Math.random()*100+'vw';
+  el.style.animationDuration=(3+Math.random()*4)+'s';
+  el.style.animationDelay=(Math.random()*2)+'s';
+  document.body.appendChild(el); setTimeout(()=>el.remove(),8000);
+ }
+}
+setStage(1,'در حال آماده‌سازی صفحه...','مرحله ۱ از ۳');
+
+requestAnimationFrame(()=>{
+  setStage(2,'در حال آماده‌سازی کادو...','مرحله ۲ از ۳');
+  go('home');
+
+  // Logo is now a normal external file, so wait only for that lightweight asset.
+  const logo = document.querySelector('.logo-fixed');
+  const finish = () => {
+    setStage(3,'کادو آماده شد ✨','مرحله ۳ از ۳');
+    finishStartup();
+  };
+  if(logo && !logo.complete){
+    logo.addEventListener('load',finish,{once:true});
+    logo.addEventListener('error',finish,{once:true});
+  }else{
+    finish();
+  }
+});
+</script>
+</body>
+</html>
